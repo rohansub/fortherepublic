@@ -35,7 +35,6 @@ h1 {
 <body>
 
     <div id="wrapper">
-
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -60,13 +59,20 @@ h1 {
                 <div class="row">
                     {% if poly %}
                     <div class="col-lg-12">
-                        <h1>{{poly.user.user.first_name}} {{poly.user.user.last_name}}</h1>
+                        <h1 id=rep data="{{poly.user.user.username}}">{{poly.user.user.first_name}} {{poly.user.user.last_name}}</h1>
                         <p> {{poly.bio}}</p>
-
                     </div>
+
                     <div class="col-lg-12" text-align: center>
+                        <form method="POST" id="issue-form">
+                            {% csrf_token %}
+                            <textarea id="issue-text" name="comment" rows="4" cols="50" placeholder="Enter issues here"></textarea>
+                            <br>
+                            <input type = "submit">
+                        </form>
+                        <br>
                         {% for i in issues %}
-                        <a href="#issue" id="issue"></a>
+                        <a href="#issue" id="issue">lol</a>
                         {% endfor %}
                     </div>
                     {% else %}
@@ -75,10 +81,11 @@ h1 {
                         <h1>My Account</h1>
                         <p>{{ user.user.first_name }} {{ user.user.last_name }}</p>
                         <p>{{ user.city_name }}, {{ user.state }} </p>
-
                     </div>
 
                     {% endif %}
+                    <br>
+                    <br>
                     <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
 
                 </div>
@@ -97,10 +104,23 @@ h1 {
 
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        $(document).on('submit', '#issue-form',function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/discussions/view/' + "{{poly.user.user.username}}/",
+                data:{
+                    text: $('#issue-text').val(),
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                },
+                success:function(){
+                }
+            })
+        });
     </script>
 
 </body>

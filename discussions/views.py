@@ -4,7 +4,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from django.core.urlresolvers import reverse
 from django.views import generic
-
+import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -42,11 +42,22 @@ def index(request):
 
 @login_required(login_url='/discussions/login/')
 def rep_view(request, user_id):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        u = AppUser.objects.get(user=request.user)
+        pu = User.objects.get(username=user_id)
+        au = AppUser.objects.get(user=pu)
+        p = Politician.objects.get(user=au)
+        now = datetime.datetime.now()
+        print text
+        i = Issue(user=au, message=text, politician=p, pub_date=now)
+        i.save()
     app_user = AppUser.objects.get(user=request.user)
     u = User.objects.get(username=user_id)
     au = AppUser.objects.get(user=u)
     p = Politician.objects.get(user=au)
     return render_index(app_user, p, request)
+
 
 
 @login_required(login_url='/discussions/login/')

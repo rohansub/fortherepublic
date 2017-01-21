@@ -15,7 +15,7 @@
 
        <div class="login-page">
           <div class="form">
-            <form method= "post" class="login-form" action="{% url 'django.contrib.auth.views.login' %}" >
+            <form method= "post" class="login-form" action="{% url 'discussions:login' %}" >
               {% csrf_token %}
               {{ form.username }}
               <td>{{ form.password }}</td>

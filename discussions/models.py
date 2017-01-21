@@ -24,6 +24,8 @@ class Politician(models.Model):
 
 class Issue(models.Model):
     points = models.IntegerField(default=0)
+    message = models.CharField(max_length=100, default='')
+    upvoters = models.ManyToManyField(AppUser, related_name='upvoters')
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE)
     pub_date = models.DateTimeField('date published')
     politician = models.ForeignKey(Politician, on_delete=models.CASCADE)
