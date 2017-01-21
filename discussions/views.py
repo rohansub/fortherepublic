@@ -28,10 +28,11 @@ def sign_up(request):
                     last_name=form.cleaned_data['last_name'])
             app_user = AppUser(user=per, city_name=form.cleaned_data['city'], state=form.cleaned_data['state'])
             app_user.save()
-            return render_to_response('discussions/index.html')
+            return HttpResponse(reverse('discussions:index'))
     form = RegistrationForm()
     variables = RequestContext(request, {'form': form})
     return render_to_response('discussions/register.html',variables)
 
+@login_required(login_url='/discussions/login/')
 def index(request):
     return HttpResponse("You at the index")
