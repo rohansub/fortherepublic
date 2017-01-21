@@ -13,10 +13,20 @@ from django.contrib.auth.models import User
 
 from .forms import RegistrationForm
 
-from logic import *
+#from logic import *
 
 from django.template import RequestContext
 
+def sign_up(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # DO MONGO QUERY HERE
+            user = User.objects.create_user(username=form.cleaned_data['username'],password=form.cleaned_data['password1'],email=form.cleaned_data['email'])
+            return HttpResponseRedirect(reverse('discussions:index'))
+    form = RegistrationForm()
+    variables = RequestContext(request, {'form': form})
+    return render_to_response('discussions/register.html',variables)
 
 def index(request):
     return HttpResponse("You at the index")
