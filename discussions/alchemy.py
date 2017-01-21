@@ -10,6 +10,9 @@ def returnConcepts (issue):
 def returnTaxonomy (issue):
 	return alchemy_language.taxonomy(text=issue)
 
+def returnSentiment (issue):
+	return alchemy_language.sentiment(text=issue)
+
 ##testing
 #issue1 = "Healthcare is spiraling out of control in this country."
 #issue2 = "Abortion is ruining the United States. We must outlaw this despicable practice!"
