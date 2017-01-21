@@ -1,0 +1,34 @@
+<html>
+{% include 'header.html' %}
+{% load staticfiles %}
+<head>
+    <link rel="stylesheet" href="{% static 'reservations/login.css' %}">
+</head>
+<body>
+<!-- Page Content -->
+    <div class="login">
+    {% block content %}
+
+        {% if form.errors %}
+            <p>Error Occurred. Please try again.</p>
+        {% endif %}
+
+       <div class="registration-page">
+          <h1><center>Register<center></h1>
+          <br>
+          <div class="form">
+              <form method="post" action=".">
+              {{ form.as_p }}
+              <button type="submit" value="register">Register</button>
+              {% csrf_token %}
+              </form>
+        </div>
+
+    {% endblock %}
+    </div>
+{% include 'footer.html' %}
+</body>
+
+
+
+</html>
