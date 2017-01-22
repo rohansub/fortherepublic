@@ -18,10 +18,10 @@ h1 {
     <title>For the Republic!</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{% static 'discussions/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap_template/css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{% static 'discussions/simple-sidebar.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap_template/css/simple-sidebar.css' %}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,7 +54,7 @@ h1 {
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
-        <div id="page-content-wrapper">
+        <div id="page-content-wrapper" >
             <div class="container-fluid">
                 <div class="row">
                     {% if poly %}
@@ -62,7 +62,8 @@ h1 {
                         <h1 id=rep data="{{poly.user.user.username}}">{{poly.user.user.first_name}} {{poly.user.user.last_name}}</h1>
                         <p> {{poly.bio}}</p>
                     </div>
-
+                    <br>
+                    <br>
                     <div class="col-lg-12" text-align: center>
                         <form method="POST" id="issue-form">
                             {% csrf_token %}
@@ -71,9 +72,8 @@ h1 {
                             <input type = "submit">
                         </form>
                         <br>
-                        {% for i in issues %}
-                        <a href="#issue" id="issue">lol</a>
-                        {% endfor %}
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                        <br>
                     </div>
                     {% else %}
 
@@ -82,17 +82,29 @@ h1 {
                         <p>{{ user.user.first_name }} {{ user.user.last_name }}</p>
                         <p>{{ user.city_name }}, {{ user.state }} </p>
                     </div>
-
+                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                     {% endif %}
                     <br>
                     <br>
-                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+
 
                 </div>
             </div>
         </div>
         <!-- /#page-content-wrapper -->
+        <div class="container-fluid">
+        {% if poly %}
 
+        <div class="col-lg-12" text-align: center>
+
+            <hr></hr>
+            <br>
+            <div id="refresh">
+                {% include "discussions/part_index.html" %}
+            </div>
+        </div>
+    </div>
+        {% endif %}
     </div>
     <!-- /#wrapper -->
 
@@ -117,9 +129,24 @@ h1 {
                     text: $('#issue-text').val(),
                     csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
                 },
+                success:function(data){
+                    $('#refresh').html(data);
+                }
+            });
+        });
+        $('.upvote').click(function() {
+            $(this).prop("disabled",true);            //$(this).after('<button disabled="disabled" value="upvoted' + $(this).val() + '" />');
+            $(this).text("Upvoted");
+            $.ajax({
+                type: "POST",
+                url: "/discussions/upvote/",
+                data: {
+                    id: this.id,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                },
                 success:function(){
                 }
-            })
+            });
         });
     </script>
 

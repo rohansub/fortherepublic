@@ -1,3 +1,4 @@
+
 <html>
 {% include 'header.html' %}
 {% load staticfiles %}
@@ -5,8 +6,9 @@
     <link rel="stylesheet" href="{% static 'discussions/login.css' %}">
 </head>
 <body>
+
 <!-- Page Content -->
-    <div class="login">
+    <div class="login" style = "background-image :">
     {% block content %}
 
         {% if form.errors %}
@@ -16,7 +18,7 @@
        <div class="registration-page">
           <h1><center>Register<center></h1>
           <br>
-          <div class="form">
+          <div class="form" style="center">
               <form method="post" action=".">
               {{ form.as_p }}
               <button type="submit" value="register">Register</button>
@@ -26,7 +28,6 @@
 
     {% endblock %}
     </div>
-{% include 'footer.html' %}
 </body>
 
 
