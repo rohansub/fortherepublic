@@ -7,6 +7,7 @@ app_name = 'discussions'
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^upvote/$', views.upvote, name='upvote'),
     url(r'^view/(?P<user_id>\w+)/$', views.rep_view, name='rep_view'),
     url('^', include('django.contrib.auth.urls')),
     url(r'^sign_up/$', views.sign_up, name = 'sign_up'),

@@ -61,6 +61,17 @@ def rep_view(request, user_id):
         return render_index(app_user, p, request)
 
 
+@login_required(login_url='/discussions/login/')
+def upvote(request):
+    if request.method == 'POST':
+        issue_id = request.POST.get('id')
+        i = Issue.objects.get(pk=issue_id)
+        if AppUser.objects.get(user=request.user) not in i.upvoters.all():
+            i.points += 1
+            i.upvoters.add(AppUser.objects.get(user=request.user))
+    return render_to_response('discussions/index.html')
+
+
 
 @login_required(login_url='/discussions/login/')
 def render_index(app_user, rep, request):
