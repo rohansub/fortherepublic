@@ -4,10 +4,11 @@
     <b>{{i.user.user.first_name}}: </b>{{i.message}}
 </h4>
 {% if user not in i.upvoters.all %}
-<button class="upvote" id={{i.id}} style="float: right;">upvote</button>
+<button class="upvote" id="{{i.id}}" style="float: right;">upvote</button>
 {% else %}
 <button class="upvote" disabled="disabled" id={{i.id}} style="float: right;">Upvoted</button>
 {% endif %}
+<p>Points:{{i.points}}</p>
 <br>
 <hr></hr>
 {% endfor %}

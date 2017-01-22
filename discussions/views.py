@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .forms import RegistrationForm
+from django.db.models import F
 
 #from logic import *
 
@@ -67,8 +68,9 @@ def upvote(request):
         issue_id = request.POST.get('id')
         i = Issue.objects.get(pk=issue_id)
         if AppUser.objects.get(user=request.user) not in i.upvoters.all():
-            i.points += 1
+            i.points +=1
             i.upvoters.add(AppUser.objects.get(user=request.user))
+            i.save()
     return render_to_response('discussions/index.html')
 
 
@@ -82,7 +84,7 @@ def render_index(app_user, rep, request):
         'reps' : polys,
     }
     if(rep != None):
-        issues = Issue.objects.filter(politician=rep)
+        issues = Issue.objects.filter(politician=rep).order_by('-points')
         context['poly'] = rep
         context['issues'] = issues
     return HttpResponse(template.render(context, request))
