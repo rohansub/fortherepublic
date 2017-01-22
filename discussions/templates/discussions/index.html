@@ -71,9 +71,11 @@ h1 {
                             <input type = "submit">
                         </form>
                         <br>
-                        {% for i in issues %}
-                        <a href="#issue" id="issue">lol</a>
-                        {% endfor %}
+                        <div id="refresh">
+                            {% for i in issues %}
+                            <p>{{i.message}}</a>
+                            {% endfor %}
+                        </div>
                     </div>
                     {% else %}
 
@@ -117,9 +119,10 @@ h1 {
                     text: $('#issue-text').val(),
                     csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
                 },
-                success:function(){
+                success:function(data){
+                    $('#refresh').html(data);
                 }
-            })
+            });
         });
     </script>
 
