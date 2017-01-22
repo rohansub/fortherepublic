@@ -53,8 +53,8 @@
                         <div class="form">
                           <form method= "post" class="login-form" action="{% url 'discussions:login' %}" >
                             {% csrf_token %}
-                            {{ form.username }}
-                            {{ form.password }}
+                            <input style = "color:black" placeholder="Username" autofocus="" id="id_username" maxlength="254" name="username" required="" type="text">
+                            <input style = "color:black" placeholder="Password" id="id_password" name="password" required="" type="password">
                             <div class="message">Not registered? <a href="../sign_up">Create an account</a></div>
                             <div id="remember" class="checkbox">
                                 <input type="checkbox" value="remember-me"> Remember me
